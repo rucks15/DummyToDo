@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DummyToDo.Views.ItemsPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:DummyToDo.ViewModels"  
+             xmlns:model="clr-namespace:DummyToDo.Models"  
+             x:Name="BrowseItemsPage">
+
+   
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Expense" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
+    <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Horizontal" x:DataType="model:Budget">
+            <Label Text="Budget:"/>
+            <Label x:Name="BudgetAmount" Text="{Binding Budget_Amount}" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" x:DataType="model:Budget">
+            <Label Text="Balance:"/>
+            <Label x:Name="Balance" Text="{Binding Balance}" FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" x:DataType="model:Budget">
+            <Label x:Name="StartDate" Text="{Binding StartDate}" FontSize="Micro"/>
+            <Label x:Name="EndDate" Text="{Binding EndDate}" FontSize="Micro"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" x:DataType="local:ItemsViewModel">
+            <Button Text="Edit Budget" BackgroundColor="IndianRed" 
+                    Command="{Binding EditBudgetCommand}" VerticalOptions="FillAndExpand"/>
+            <Button Text="Delete Budget" BackgroundColor="IndianRed" 
+                    Command="{Binding DeleteBudgetCommand}" VerticalOptions="FillAndExpand"/>
+        </StackLayout>
+
+    <StackLayout Orientation="Vertical" x:DataType="model:Item">
+        <RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Item">
+                            <Label Text="{Binding Expense}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" />
+                            <Label Text="{Binding Category}" 
+                            LineBreakMode="NoWrap"
+                            Style="{DynamicResource ListItemDetailTextStyle}"
+                            FontSize="13" />
+                            <Label Text="{Binding Amount}"
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemDetailTextStyle}"/>
+                                <Label Text="{Binding Date}"
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemDetailTextStyle}"/>
+                                <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
+                                CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
+    

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DummyToDo.Views.ItemDetailPage"
+             Title="{Binding Title}">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Expanse Name:" FontSize="Medium" />
+        <Editor Text="{Binding Text}" FontSize="Small"/>
+        <Label Text="Category:" FontSize="Medium" />
+        <Editor Text="{Binding Description}" FontSize="Small"/>
+        <Label Text="Amount:" FontSize="Medium"/>
+        <Editor Text="{Binding Amount, Mode=TwoWay}" FontSize="Small"/>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Delete" Command="{Binding DeleteCommand}" HorizontalOptions="FillAndExpand"></Button>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
